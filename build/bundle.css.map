@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../../App.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  let interesetSliderValue = 375;\n  let years = 15;\n  let loanAmount = 650000;\n\n  const formatter = new Intl.NumberFormat(\"en-US\", {\n    style: \"currency\",\n    currency: \"USD\"\n  });\n\n  $: totalPayments = years * 12;\n  $: monthlyInterestRate = interesetSliderValue / 100 / 100 / 12;\n\n  $: monthlyPayments =\n    (loanAmount *\n      Math.pow(1 + monthlyInterestRate, totalPayments) *\n      monthlyInterestRate) /\n    (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);\n  $: totalPaid = monthlyPayments * totalPayments;\n  $: monthlyPaymentsFormated = formatter.format(monthlyPayments);\n  $: totalPaidFormated = formatter.format(totalPaid);\n  $: interestPaidFormated = formatter.format(totalPaid - loanAmount);\n</script>\n\n<style>\n  .outputs {\n    font-size: 20px;\n    border: solid;\n    margin-top: 15px;\n    text-align: center;\n  }\n</style>\n\n<main class=\"container\">\n  <div class=\"row\">\n    <h1>Mortgage Calculator</h1>\n  </div>\n  <div class=\"row\">\n    <label>Loan Amount</label>\n    <input\n      class=\"u-full-width\"\n      bind:value={loanAmount}\n      type=\"number\"\n      min=\"0\"\n      placeholder=\"10000\" />\n  </div>\n  <div class=\"row\">\n    <div class=\"six columns\">\n      <label>Years</label>\n      <input\n        class=\"u-full-width\"\n        bind:value={years}\n        type=\"range\"\n        min=\"1\"\n        max=\"40\" />\n    </div>\n    <div class=\"six columns outputs\">{years} years</div>\n  </div>\n  <div class=\"row\">\n    <div class=\"six columns\">\n      <label>Interest Rate</label>\n      <input\n        class=\"u-full-width\"\n        bind:value={interesetSliderValue}\n        type=\"range\"\n        min=\"1\"\n        max=\"2000\" />\n    </div>\n    <div class=\"six columns outputs\">\n      {(interesetSliderValue / 100).toFixed(2)}%\n    </div>\n  </div>\n  <div class=\"row outputs\">Monthly Payments {monthlyPaymentsFormated}</div>\n  <div class=\"row outputs\">Total Paid {totalPaidFormated}</div>\n  <div class=\"row outputs\">Interest Paid {interestPaidFormated}</div>\n</main>\n"
+  ],
+  "names": [],
+  "mappings": "AAyBE,QAAQ,eAAC,CAAC,AACR,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,KAAK,CACb,UAAU,CAAE,IAAI,CAChB,UAAU,CAAE,MAAM,AACpB,CAAC"
+}
